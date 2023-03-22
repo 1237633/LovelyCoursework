@@ -1,14 +1,14 @@
 import java.util.Objects;
 
 public class Employee {
-    private final String fullName;
+    private final String FULL_NAME;
     private int departmentId;
     private int salary;
     private static int counter;
     private final int id;
 
     public Employee(String fullName, int departmentId, int salary){
-        this.fullName = fullName;
+        this.FULL_NAME = fullName;
         this.departmentId = departmentId;
         this.salary = salary;
         id = counter;
@@ -16,7 +16,7 @@ public class Employee {
     }
 
     public String getFullName() {
-        return fullName;
+        return FULL_NAME;
     }
 
     public int getDepartmentId() {
@@ -41,12 +41,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "fullName='" + fullName + '\'' +
-                ", departmentId=" + departmentId +
-                ", salary=" + salary +
-                ", employeeId=" + id +
-                '}';
+        return "Employee: " + FULL_NAME + ", department id: " + departmentId + ", salary: " + salary + ", employee id: " + id;
     }
 
     @Override
