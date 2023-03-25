@@ -31,26 +31,26 @@ public class EmployeeBook {
         return sum;
     }
 
-    public Employee getCheapestEmployee(Employee[] employees){
+    public Employee getCheapestEmployee(){
         Employee cheapest = null;
-        if (employees != null) {
-            cheapest = employees[0];
-            for (int i = 0; i < employees.length - 1; i++) {
-                if (employees[i + 1] != null && cheapest.getSalary() > employees[i + 1].getSalary()) {
-                    cheapest = employees[i + 1];
+        if (employeeBook != null) {
+            cheapest = employeeBook[0];
+            for (int i = 0; i < employeeBook.length - 1; i++) {
+                if (employeeBook[i + 1] != null && cheapest.getSalary() > employeeBook[i + 1].getSalary()) {
+                    cheapest = employeeBook[i + 1];
                 }
             }
         }
         return cheapest;
     }
 
-    public Employee getTheMostExpensiveEmployee(Employee[] employees){
+    public Employee getTheMostExpensiveEmployee(){
         Employee theExpensiveOne = null;
-                if(employees != null) {
-                    theExpensiveOne = employees[0];
-                    for (int i = 0; i < employees.length - 1; i++) {
-                        if (employees[i + 1] != null && theExpensiveOne.getSalary() < employees[i + 1].getSalary()) {
-                            theExpensiveOne = employees[i + 1];
+                if(employeeBook != null) {
+                    theExpensiveOne = employeeBook[0];
+                    for (int i = 0; i < employeeBook.length - 1; i++) {
+                        if (employeeBook[i + 1] != null && theExpensiveOne.getSalary() < employeeBook[i + 1].getSalary()) {
+                            theExpensiveOne = employeeBook[i + 1];
                         }
                     }
                 }
@@ -76,33 +76,33 @@ public class EmployeeBook {
         }
     }
 
-    public void indexSalary(Employee[] employees, int indexingPercentage){
-       if(employees != null) {
+    public void indexSalary(int indexingPercentage){
+       if(employeeBook != null) {
            if (indexingPercentage <= -100) {
                throw new IllegalArgumentException("You should fire this employee, not make him suffer!");
            }
-           for (Employee employee : employees) {
+           for (Employee employee : employeeBook) {
                employee.setSalary(employee.getSalary() + employee.getSalary() * indexingPercentage / 100);
            }
        }
     }
 
-    public Employee[] getAllEmployeesOfDepartment(int departmentId) {
+    public EmployeeBook getAllEmployeesOfDepartment(int departmentId) {
         int counterOfEmployees = 0;
-        Employee[] employeesOfDepartment = null;
+        EmployeeBook employeesOfDepartment = null;
 
         for (int i = 0; i < employeeBook.length; i++) {
-            if (employeesOfDepartment[i].getDepartmentId() == departmentId) {
+            if (employeeBook[i].getDepartmentId() == departmentId) {
                 counterOfEmployees++;
             }
         }
         if (counterOfEmployees > 0) {
-            employeesOfDepartment = new Employee[counterOfEmployees];
+            employeesOfDepartment = new EmployeeBook(counterOfEmployees);
 
             counterOfEmployees = 0;
             for (int i = 0; i < employeeBook.length; i++) {
                 if (employeeBook[i].getDepartmentId() == departmentId) {
-                    employeesOfDepartment[counterOfEmployees] = employeeBook[i];
+                    employeesOfDepartment.employeeBook[counterOfEmployees] = employeeBook[i];
                     counterOfEmployees++;
                 }
             }
@@ -111,34 +111,35 @@ public class EmployeeBook {
 
     }
     public void printAllEmployees(int departmentId){
-       Employee[] employeesOfDepartment = getAllEmployeesOfDepartment(departmentId);
+       EmployeeBook employeesOfDepartment = getAllEmployeesOfDepartment(departmentId);
        if(employeesOfDepartment != null) {
-           for (Employee employee : employeesOfDepartment) {
+           for (Employee employee : employeesOfDepartment.employeeBook) {
                System.out.println("Name: " + employee.getFullName() + ", salary: " + employee.getSalary() + ", id: " + employee.getId());
            }
          }
     }
 
-    public Employee getCheapestEmployee(Employee[] employees, int departmentId){
-        return getCheapestEmployee(getAllEmployeesOfDepartment(employees, departmentId));
+    public Employee getCheapestEmployee(int departmentId){
+        return getAllEmployeesOfDepartment(departmentId).getCheapestEmployee();
 
     }
 
-    public Employee getTheMostExpensiveEmployee(Employee[] employees, int departmentId){
-        return getTheMostExpensiveEmployee(getAllEmployeesOfDepartment(employees, departmentId));
+    public Employee getTheMostExpensiveEmployee(int departmentId){
+        return getAllEmployeesOfDepartment(departmentId).getTheMostExpensiveEmployee();
     }
 
     public int getTotalSalaryPerMonth(int departmentId){
-        return getTotalSalaryPerMonth(getAllEmployeesOfDepartment(departmentId));
+        getAllEmployeesOfDepartment(departmentId);
+        return getTotalSalaryPerMonth();
 
     }
 
-    public float getAvgSalary(Employee[] employees, int departmentId){
-        return (float)getAvgSalary(getAllEmployeesOfDepartment(employees, departmentId));
+    public float getAvgSalary(int departmentId){
+        return (float) getAllEmployeesOfDepartment(departmentId).getAvgSalary();
     }
 
-    public void indexSalary(Employee[] employees, int departmentId, int indexingPercentage){
-        indexSalary(getAllEmployeesOfDepartment(employees, departmentId), indexingPercentage);
+    public void indexSalary(int departmentId, int indexingPercentage){
+        getAllEmployeesOfDepartment(departmentId).indexSalary(indexingPercentage);
     }
 
     public void printHigherSalary(Employee[] employees, int salary){
@@ -159,6 +160,10 @@ public class EmployeeBook {
                 }
             }
         }
+    }
+
+    public int Allah(int v){
+        return 1;
     }
 
 }

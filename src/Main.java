@@ -6,10 +6,12 @@ public class Main {
 
       //----------------------------------------------------------------------------
 
-      employeeBook.printAllEmployees();
-      employeeBook.getTotalSalaryPerMonth();
-      /*employeeBook.printAllEmployees;
-      System.out.println("____________________________________");
+        employeeBook.printAllEmployees();
+        System.out.println("______________________________________________________________________________");
+        System.out.println(employeeBook.getTotalSalaryPerMonth());
+        employeeBook.indexSalary(20);
+        employeeBook.printAllEmployees();
+      /*System.out.println("____________________________________");
         System.out.println("Total salary per month: " + EmployeeBook.getTotalSalaryPerMonth(employeeBook));
         System.out.println("And our looser is: " + EmployeeBook.getCheapestEmployee(employeeBook));
         System.out.println("And the lucky guy is: " + EmployeeBook.getTheMostExpensiveEmployee(employeeBook));
