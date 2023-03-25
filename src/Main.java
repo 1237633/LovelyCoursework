@@ -1,22 +1,41 @@
-import java.awt.image.ReplicateScaleFilter;
-
 public class Main {
     public static void main(String[] args) {
-        Employee[] employeeBook = new Employee[10];
+      EmployeeBook employeeBook = new EmployeeBook(10);
+      employeeBook.fillWithRandom();
 
-      for (int i = 0; i < 10; i++) {
-          employeeBook[i] = new Employee(RandomTools.generateRandomName(), RandomTools.generateRandomNumber(1, 6), RandomTools.generateRandomNumber(100000, 200001));
 
-      }
-      EmployeeService.printAllEmployees(employeeBook);
-        System.out.println("Total salary per month: " + EmployeeService.getTotalSalaryPerMonth(employeeBook));
-        System.out.println("And our looser is: " + EmployeeService.getCheapestEmployee(employeeBook));
-        System.out.println("And the lucky guy is: " + EmployeeService.getTheMostExpensiveEmployee(employeeBook));
-        System.out.println("Average salary: " + EmployeeService.getAvgSalary(employeeBook));
-        EmployeeService.printAllNames(employeeBook);
-        EmployeeService.indexSalary(employeeBook, 20);
-        EmployeeService.printAllEmployees(employeeBook);
+      //----------------------------------------------------------------------------
 
+      employeeBook.printAllEmployees();
+      employeeBook.getTotalSalaryPerMonth();
+      /*employeeBook.printAllEmployees;
+      System.out.println("____________________________________");
+        System.out.println("Total salary per month: " + EmployeeBook.getTotalSalaryPerMonth(employeeBook));
+        System.out.println("And our looser is: " + EmployeeBook.getCheapestEmployee(employeeBook));
+        System.out.println("And the lucky guy is: " + EmployeeBook.getTheMostExpensiveEmployee(employeeBook));
+        System.out.println("Average salary: " + EmployeeBook.getAvgSalary(employeeBook));
+        EmployeeBook.printAllNames(employeeBook);
+        EmployeeBook.indexSalary(employeeBook, 20);
+        EmployeeBook.printAllEmployees(employeeBook);
+        System.out.println();
+        EmployeeBook.printAllEmployees(EmployeeBook.getAllEmployeesOfDepartment(employeeBook, 2));
+        System.out.println();
+        EmployeeBook.printAllEmployees(employeeBook, 2);
+        System.out.println();
+        System.out.println(EmployeeBook.getCheapestEmployee(employeeBook, 2));
+        System.out.println();
+        System.out.println(EmployeeBook.getTheMostExpensiveEmployee(employeeBook, 2));
+      System.out.println();
+        System.out.println(EmployeeBook.getTotalSalaryPerMonth(employeeBook, 2));
+      System.out.println();
+      System.out.println(EmployeeBook.getAvgSalary(employeeBook,2));
+      System.out.println();
+      EmployeeBook.indexSalary(employeeBook, 2, 10);
+      EmployeeBook.printAllEmployees(EmployeeBook.getAllEmployeesOfDepartment(employeeBook, 2));
+      System.out.println("↑");
+      EmployeeBook.printHigherSalary(employeeBook, 170000);
+      System.out.println(" ↓");
+      EmployeeBook.printLowerSalary(employeeBook, 160000);*/
     }
 }
 
