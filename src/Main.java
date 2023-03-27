@@ -1,7 +1,13 @@
+import java.sql.SQLOutput;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+      int countOfEmployees = 10;
       EmployeeBook employeeBook = new EmployeeBook(10);
       employeeBook.fillWithRandom();
+
+     Scanner scan = new Scanner(System.in);
 
 
       //----------------------------------------------------------------------------
@@ -11,33 +17,30 @@ public class Main {
         System.out.println(employeeBook.getTotalSalaryPerMonth());
         employeeBook.indexSalary(20);
         employeeBook.printAllEmployees();
-      /*System.out.println("____________________________________");
-        System.out.println("Total salary per month: " + EmployeeBook.getTotalSalaryPerMonth(employeeBook));
-        System.out.println("And our looser is: " + EmployeeBook.getCheapestEmployee(employeeBook));
-        System.out.println("And the lucky guy is: " + EmployeeBook.getTheMostExpensiveEmployee(employeeBook));
-        System.out.println("Average salary: " + EmployeeBook.getAvgSalary(employeeBook));
-        EmployeeBook.printAllNames(employeeBook);
-        EmployeeBook.indexSalary(employeeBook, 20);
-        EmployeeBook.printAllEmployees(employeeBook);
-        System.out.println();
-        EmployeeBook.printAllEmployees(EmployeeBook.getAllEmployeesOfDepartment(employeeBook, 2));
-        System.out.println();
-        EmployeeBook.printAllEmployees(employeeBook, 2);
-        System.out.println();
-        System.out.println(EmployeeBook.getCheapestEmployee(employeeBook, 2));
-        System.out.println();
-        System.out.println(EmployeeBook.getTheMostExpensiveEmployee(employeeBook, 2));
-      System.out.println();
-        System.out.println(EmployeeBook.getTotalSalaryPerMonth(employeeBook, 2));
-      System.out.println();
-      System.out.println(EmployeeBook.getAvgSalary(employeeBook,2));
-      System.out.println();
-      EmployeeBook.indexSalary(employeeBook, 2, 10);
-      EmployeeBook.printAllEmployees(EmployeeBook.getAllEmployeesOfDepartment(employeeBook, 2));
-      System.out.println("↑");
-      EmployeeBook.printHigherSalary(employeeBook, 170000);
-      System.out.println(" ↓");
-      EmployeeBook.printLowerSalary(employeeBook, 160000);*/
+        System.out.println(employeeBook.getTotalSalaryPerMonth());
+        System.out.println(employeeBook.getTotalSalaryPerMonth(2));
+        System.out.println(employeeBook.getAvgSalary());
+        System.out.println(employeeBook.getAvgSalary(2));
+        System.out.println(employeeBook.getCheapestEmployee());
+        System.out.println(employeeBook.getCheapestEmployee(2));
+        System.out.println(employeeBook.getTheMostExpensiveEmployee());
+        System.out.println(employeeBook.getTheMostExpensiveEmployee(2));
+        employeeBook.indexSalary(2,20);
+        employeeBook.printAllEmployees(2);
+        System.out.println("Higher:");
+        employeeBook.printHigherSalary(175000);
+        System.out.println("Lower:");
+        employeeBook.printLowerSalary(175000);
+      System.out.println("_______________________________");
+   System.out.println("Delete by id: ");
+      employeeBook.removeEmployee(scan.nextInt());
+        employeeBook.printAllEmployees();
+      System.out.println("Delete  by name: ");
+      employeeBook.removeEmployee(scan.nextLine());
+      employeeBook.printAllEmployees();
+     // System.out.println(employeeBook.getPosition(scan.nextLine()));
+
+
     }
 }
 
