@@ -185,7 +185,10 @@ public class EmployeeBook {
     public int getPosition(int id){ //now id = [index], but what if not?
         if(employeeBook != null && id >= 0){
             for (int i = 0; i < employeeBook.length; i++) {
-                if(employeeBook[i] != null && employeeBook[i].getId() == id){
+                if(employeeBook[i] == null){
+                    continue;
+                }
+                if(employeeBook[i].getId() == id){
                     return i;
                 }
             }
@@ -196,7 +199,10 @@ public class EmployeeBook {
     public int getPosition(String name){
         if(employeeBook != null && name != null){
             for (int i = 0; i < employeeBook.length; i++) {
-                if(employeeBook[i] != null && name.equalsIgnoreCase(employeeBook[i].getFullName())){
+                if(employeeBook[i] == null) {
+                    continue;
+                }
+                if(name.equalsIgnoreCase(employeeBook[i].getFullName())){
                     return i;
                 }
             }

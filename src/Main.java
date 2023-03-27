@@ -38,6 +38,7 @@ public class Main {
       System.out.println("Delete  by name: ");
       employeeBook.removeEmployee(scan.nextLine());
       employeeBook.printAllEmployees();
+      scan.close();
      // System.out.println(employeeBook.getPosition(scan.nextLine()));
 
 
