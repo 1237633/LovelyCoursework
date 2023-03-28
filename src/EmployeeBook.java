@@ -1,6 +1,9 @@
 public class EmployeeBook {
     private Employee[] employeeBook;
-
+    private final int NUMBER_OF_DEPARTMENTS = 5;
+    private final int FIRST_DEPARTMENT = 1;
+    private final int MIN_SALARY = 100000;
+    private final int MAX_SALARY = 200000;
     public EmployeeBook(int length){
         employeeBook = new Employee[length];
     }
@@ -13,7 +16,7 @@ public class EmployeeBook {
 
     public void fillWithRandom(){
         for (int i = 0; i < employeeBook.length; i++) {
-            employeeBook[i] = new Employee(RandomTools.generateRandomName(), RandomTools.generateRandomNumber(1, 6), RandomTools.generateRandomNumber(100000, 200001));
+            employeeBook[i] = new Employee(RandomTools.generateRandomName(), RandomTools.generateRandomNumber(FIRST_DEPARTMENT, NUMBER_OF_DEPARTMENTS+1), RandomTools.generateRandomNumber(MIN_SALARY, MAX_SALARY));
         }
     }
     public void printAllEmployees (){
@@ -75,9 +78,13 @@ public class EmployeeBook {
         return 0f;
     }
 
-    public void printAllNames(Employee[] employees){
-        for (int i = 0; i < employees.length; i++) {
-            System.out.println(i+1 + ". " + employees[i].getFullName());
+    public void printAllNames(){
+        int count = 0;
+        for (Employee employee: employeeBook) {
+            if(employee != null) {
+                System.out.println(count + 1 + ". " + employee.getFullName());
+                count++;
+            }
         }
     }
 
@@ -151,7 +158,7 @@ public class EmployeeBook {
 
     public float getAvgSalary(int departmentId){
         if (depIsNotNull(departmentId)) {
-            return (float) getAllEmployeesOfDepartment(departmentId).getAvgSalary();
+            return getAllEmployeesOfDepartment(departmentId).getAvgSalary();
         }
         return 0f;
     }
@@ -182,13 +189,21 @@ public class EmployeeBook {
         }
     }
 
-    public int getPosition(int id){ //now id = [index], but what if not?
-        if(employeeBook != null && id >= 0){
+    public int getPosition(String nameOrId){
+        if(employeeBook != null && nameOrId != null){
+            boolean idEquals;
+            boolean nameEquals;
             for (int i = 0; i < employeeBook.length; i++) {
-                if(employeeBook[i] == null){
+
+                if(employeeBook[i] == null) {
                     continue;
                 }
-                if(employeeBook[i].getId() == id){
+
+                idEquals = nameOrId.replace(" ", "").equals(Integer.toString(employeeBook[i].getId()).replace(" ", ""));
+                nameEquals = nameOrId.replace(" ", "").equalsIgnoreCase(employeeBook[i].getFullName().replace(" ", ""));
+
+
+                if(idEquals || nameEquals){
                     return i;
                 }
             }
@@ -196,15 +211,10 @@ public class EmployeeBook {
         return -1;
     }
 
-    public int getPosition(String name){
-        if(employeeBook != null && name != null){
-            for (int i = 0; i < employeeBook.length; i++) {
-                if(employeeBook[i] == null) {
-                    continue;
-                }
-                if(name.equalsIgnoreCase(employeeBook[i].getFullName())){
-                    return i;
-                }
+    public int findEmpty(){                             // returns 1st empty element
+        for (int i = 0; i < employeeBook.length; i++) {
+            if(employeeBook[i] == null){
+                return i;
             }
         }
         return -1;
@@ -213,18 +223,65 @@ public class EmployeeBook {
 
     //----------------------------------------
 
-    public void removeEmployee(int id){
-        if (getPosition(id) >= 0) {
-            employeeBook[getPosition(id)] = null;
+    public void removeEmployee(String nameOrId){
+        if (getPosition(nameOrId) >= 0) {
+            employeeBook[getPosition(nameOrId)] = null;
+        } else {
+            System.out.println("There is no such employee!");
         }
-    }
 
-    public void removeEmployee(String name){
-        if (getPosition(name) >= 0) {
-            employeeBook[getPosition(name)] = null;
-        }
     }
 
 
+    public void addEmployee(String name, int departmentId, int salary){
+        if(findEmpty() >= 0){
+            employeeBook[findEmpty()] = new Employee(name, departmentId, salary);
+        } else {
+            System.out.println("Not enough space! EmployeeBook doesn't change.");
+        }
+    }
 
-}
+    public void setSalary(String name, int newSalary){
+       if (getPosition(name) >= 0){
+           employeeBook[getPosition(name)].setSalary(newSalary);
+       } else {
+           System.out.println("There is no such employee!");
+       }
+    }
+
+    public void setDepartment(String name, int newDepartmentId){
+        if (getPosition(name) >= 0){
+            employeeBook[getPosition(name)].setDepartment(newDepartmentId);
+        } else {
+            System.out.println("There is no such employee!");
+        }
+    }
+
+    public void printAllEmployees(boolean splitByDepartments){
+        if(!splitByDepartments){
+            printAllEmployees();
+            return;
+        }
+
+        int departments = 0;
+        for (Employee employee: employeeBook) {          //we can use NUMBER_OF_DEPARTMENTS, but in real proj we might not know number of dep's
+            if(employee != null && employee.getDepartmentId() > departments){
+                departments = employee.getDepartmentId();
+            }
+        }
+        if(departments < FIRST_DEPARTMENT){
+            return;
+        }
+        for (int i = FIRST_DEPARTMENT; i <= departments; i++) {
+            if(getAllEmployeesOfDepartment(i) == null){
+                continue;
+            }
+            System.out.println("Department " + i + ": ");
+            printAllEmployees(i);
+        }
+
+        }
+
+    }
+
+
