@@ -7,11 +7,13 @@ import sky.pro.java.course2.homework17.exceptions.EmployeeNotFoundException;
 import sky.pro.java.course2.homework17.exceptions.EmployeeStorageIsFullException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private List<Employee> employeeBook = new ArrayList();
+    private Map<Employee> employeeBook = new HashMap();
     private final int EMPLOYEE_LIMIT = 15;
 
     @Override
