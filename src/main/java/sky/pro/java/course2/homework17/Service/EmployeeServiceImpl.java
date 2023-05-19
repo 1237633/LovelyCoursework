@@ -6,49 +6,66 @@ import sky.pro.java.course2.homework17.exceptions.EmployeeAlreadyExistsException
 import sky.pro.java.course2.homework17.exceptions.EmployeeNotFoundException;
 import sky.pro.java.course2.homework17.exceptions.EmployeeStorageIsFullException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private List<Employee> employeeBook = new ArrayList();
-    private final int EMPLOYEE_LIMIT = 15;
+    private static final Map<String, Employee> employeeBook = new HashMap();
+    private static final int EMPLOYEE_LIMIT = 15;
 
     @Override
-    public void addEmployee(String firstName, String lastName) {
-        if (employeeBook.size() >= EMPLOYEE_LIMIT) {
-            throw new EmployeeStorageIsFullException("Pay more taxes to have more employees!");
-        }
-        try {
-            if (employeeBook.contains(findEmployee(firstName, lastName))) {
-                throw new EmployeeAlreadyExistsException("You already have this employee: " + firstName + " " + lastName + "!");
+    public Employee addEmployee(String firstName, String lastName) {
+        if (employeeBook.size() < EMPLOYEE_LIMIT) {
+            Employee employee = new Employee(firstName, lastName);
+            if (employeeBook.containsKey(inputToKey(firstName, lastName)) && employeeBook.containsValue(employee)) { //Проверять сразу на значение - долго, но могут попадаться тёзки с разными ключами.
+                System.out.println("You are trying to add an existing employee! " + firstName + " " + lastName);
+                throw new EmployeeAlreadyExistsException("Employee already exists!");
             }
-        } catch (EmployeeNotFoundException E) {  //при нормальной работе метода find внутри условного оператора, выкидывается эксепшн, если такой сотрудник не найден. При отстутствии такого сотрудника его следует добавить.
-            employeeBook.add(new Employee(firstName, lastName));
-            System.out.println("Added " + firstName + " " + lastName);
+            employeeBook.put(inputToKey(firstName, lastName), employee);
+            System.out.println("Added " + employee);
+            return employee;
         }
+        System.out.println("Failed to add " + firstName + " " + lastName + ", storage is full!");
+        throw new EmployeeStorageIsFullException("You reached the limit of employees!");
+
+
     }
 
     @Override
-    public void deleteEmployee(Employee employee) {
-        employeeBook.remove(employee);
-        System.out.println("Deleted " + employee + "!");
+    public Employee deleteEmployee(String firstName, String lastName) {
+        if (employeeBook.containsKey(inputToKey(firstName, lastName))) {
+            System.out.println("Deleted " + firstName + " " + lastName);
+            return employeeBook.remove(inputToKey(firstName, lastName));
+        } else {
+            System.out.println("Deletion failed. No such employee: " + firstName + " " + lastName);
+            throw new EmployeeNotFoundException();
+        }
     }
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
-        for (Employee employee : employeeBook) {
-            if (employee.getFirstname().equals(firstName) && employee.getLastName().equals(lastName)) {
-                return employee;
-            }
+        Employee result = employeeBook.get(inputToKey(firstName, lastName));
+        System.out.println("Attempt to find " + firstName + " " + lastName);
+        if (result == null) {
+            System.out.println("Failed to found. No such employee: " + firstName + " " + lastName);
+            throw new EmployeeNotFoundException("There is no such employee!");
         }
-        throw new EmployeeNotFoundException("There is no Such employee: " + firstName + " " + lastName + "!");
+        return result;
     }
 
     @Override
-    public List<Employee> printAll() {
+    public Map<String, Employee> printAll() {
+        System.out.println("Printed employeBook");
         return employeeBook;
     }
+
+    private static String inputToKey(String firstName, String lastName) {
+        String result = firstName.trim() + lastName.trim();
+        return result.toLowerCase();
+
+    }
+
 }
 
 
