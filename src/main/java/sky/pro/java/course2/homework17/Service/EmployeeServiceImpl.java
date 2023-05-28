@@ -1,6 +1,7 @@
 package sky.pro.java.course2.homework17.Service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import sky.pro.java.course2.homework17.Employee;
 import sky.pro.java.course2.homework17.exceptions.EmployeeAlreadyExistsException;
 import sky.pro.java.course2.homework17.exceptions.EmployeeNotFoundException;
@@ -15,19 +16,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final int EMPLOYEE_LIMIT = 15;
 
     @Override
-    public Employee addEmployee(String firstName, String lastName) {
+    public Employee addEmployee(String firstName, String lastName, Integer departmentId, Integer salary) {
         if (employeeBook.size() < EMPLOYEE_LIMIT) {
-            Employee employee = new Employee(firstName, lastName);
+            Employee employee = new Employee(firstName, lastName, departmentId, salary);
             if (employeeBook.containsKey(inputToKey(firstName, lastName)) && employeeBook.containsValue(employee)) { //Проверять сразу на значение - долго, но могут попадаться тёзки с разными ключами.
-                System.out.println("You are trying to add an existing employee! " + firstName + " " + lastName);
-                throw new EmployeeAlreadyExistsException("Employee already exists!");
+                throw new EmployeeAlreadyExistsException("Employee " + firstName + " " + lastName + " already exists!");
             }
             employeeBook.put(inputToKey(firstName, lastName), employee);
             System.out.println("Added " + employee);
             return employee;
         }
-        System.out.println("Failed to add " + firstName + " " + lastName + ", storage is full!");
-        throw new EmployeeStorageIsFullException("You reached the limit of employees!");
+        throw new EmployeeStorageIsFullException("Failed to add " + firstName + " " + lastName + ". You reached the limit of employees!");
 
 
     }
@@ -38,8 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             System.out.println("Deleted " + firstName + " " + lastName);
             return employeeBook.remove(inputToKey(firstName, lastName));
         } else {
-            System.out.println("Deletion failed. No such employee: " + firstName + " " + lastName);
-            throw new EmployeeNotFoundException();
+            throw new EmployeeNotFoundException("Deletion failed! No such employee!");
         }
     }
 
@@ -48,7 +46,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee result = employeeBook.get(inputToKey(firstName, lastName));
         System.out.println("Attempt to find " + firstName + " " + lastName);
         if (result == null) {
-            System.out.println("Failed to found. No such employee: " + firstName + " " + lastName);
             throw new EmployeeNotFoundException("There is no such employee!");
         }
         return result;
@@ -56,7 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Map<String, Employee> printAll() {
-        System.out.println("Printed employeBook");
+        System.out.println("Printed employeeBook");
         return employeeBook;
     }
 
@@ -65,6 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return result.toLowerCase();
 
     }
+
 
 }
 
