@@ -1,8 +1,12 @@
 package sky.pro.java.course2.homework17.Service;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import sky.pro.java.course2.homework17.Employee;
+import sky.pro.java.course2.homework17.exceptions.BadRequestException;
 import sky.pro.java.course2.homework17.exceptions.EmployeeAlreadyExistsException;
 import sky.pro.java.course2.homework17.exceptions.EmployeeNotFoundException;
 import sky.pro.java.course2.homework17.exceptions.EmployeeStorageIsFullException;
@@ -15,10 +19,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final Map<String, Employee> employeeBook = new HashMap();
     private static final int EMPLOYEE_LIMIT = 15;
 
+    private static final String FORBIDDEN = "1234567890!@#$%^&*()=";
+
     @Override
     public Employee addEmployee(String firstName, String lastName, Integer departmentId, Integer salary) {
         if (employeeBook.size() < EMPLOYEE_LIMIT) {
-            Employee employee = new Employee(firstName, lastName, departmentId, salary);
+            Employee employee = new Employee(StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), departmentId, salary);
             if (employeeBook.containsKey(inputToKey(firstName, lastName)) && employeeBook.containsValue(employee)) { //Проверять сразу на значение - долго, но могут попадаться тёзки с разными ключами.
                 throw new EmployeeAlreadyExistsException("Employee " + firstName + " " + lastName + " already exists!");
             }
@@ -57,12 +63,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeBook;
     }
 
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Forbidden char!")
     private static String inputToKey(String firstName, String lastName) {
+        if (StringUtils.containsAny(firstName, FORBIDDEN) || StringUtils.containsAny(lastName, FORBIDDEN)) {
+            throw new BadRequestException("Forbidden char!");
+        }
         String result = firstName.trim() + lastName.trim();
         return result.toLowerCase();
-
     }
-
 
 }
 
