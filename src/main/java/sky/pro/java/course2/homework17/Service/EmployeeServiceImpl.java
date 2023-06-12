@@ -63,7 +63,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeBook;
     }
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Forbidden char!")
     private static String inputToKey(String firstName, String lastName) {
         if (StringUtils.containsAny(firstName, FORBIDDEN) || StringUtils.containsAny(lastName, FORBIDDEN)) {
             throw new BadRequestException("Forbidden char!");
