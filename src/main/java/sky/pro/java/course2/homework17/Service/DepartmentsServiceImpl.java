@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class DepartmentServiceImpl implements DepartmentService {
+public class DepartmentsServiceImpl implements DepartmentsService {
 
     private final EmployeeService employeeService;
 
-    public DepartmentServiceImpl(EmployeeService employeeService) {
+    public DepartmentsServiceImpl(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -31,6 +31,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public double findAvgSal(Integer depId) {
         return all(depId).stream().mapToInt(e -> e.getSalary()).average().getAsDouble();
+    }
+
+    @Override
+    public double summarySalary(Integer depId) {
+        return all(depId).stream().mapToInt(e -> e.getSalary()).sum();
     }
 
     @Override
