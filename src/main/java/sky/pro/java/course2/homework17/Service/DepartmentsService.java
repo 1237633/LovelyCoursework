@@ -6,13 +6,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public interface DepartmentService {
+public interface DepartmentsService {
 
     Employee findMaxSal(Integer depId);
 
     Employee findMinSal(Integer depId);
 
     double findAvgSal(Integer depId);
+
+    double summarySalary(Integer depId);
 
     Collection<Employee> all(Integer depId);
 
