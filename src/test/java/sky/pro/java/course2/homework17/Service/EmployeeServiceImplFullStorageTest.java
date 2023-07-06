@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class EmployeeServiceImplFullStorageTest {
 
     static private EmployeeService out;
@@ -21,7 +22,7 @@ class EmployeeServiceImplFullStorageTest {
 
 
     @ParameterizedTest
-    @Order(1)  //Вынес 1 тест в отдельный класс. Теперь почему-то они выполняются в неверном порядке
+    @Order(1)
     @MethodSource("provideParams")
     public void fillStorage(String name, String surname, int department, int salary) {
         out.addEmployee(name, surname, department, salary);
@@ -51,6 +52,5 @@ class EmployeeServiceImplFullStorageTest {
                 Arguments.of("m", "n", 10, 10),
                 Arguments.of("n", "o", 10, 10),
                 Arguments.of("o", "p", 10, 10));
-
     }
 }

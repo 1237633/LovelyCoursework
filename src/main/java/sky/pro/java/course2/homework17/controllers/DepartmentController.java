@@ -11,17 +11,6 @@ import java.util.Map;
 @RequestMapping("/department")
 @RestController
 
-/*GET http://localhost:8080/department/{id}/employees
-        — возвращает список сотрудников по департаменту.
-        GET http://localhost:8080/department/{id}/salary/sum
-        — возвращает сумму зарплат по департаменту.
-        GET http://localhost:8080/department/{id}/salary/max
-        — возвращает максимальную зарплату по департаменту.
-        GET http://localhost:8080/department/{id}/salary/min
-        — возвращает минимальную зарплату по департаменту.
-        GET http://localhost:8080/department/employees
-        — возвращает сотрудников,*/
-
 public class DepartmentController {
     private final DepartmentsService departmentsService;
 

@@ -1,5 +1,6 @@
 package sky.pro.java.course2.homework17.Service;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import sky.pro.java.course2.homework17.Employee;
 
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Repository
 public class DepartmentsServiceImpl implements DepartmentsService {
 
     private final EmployeeService employeeService;
